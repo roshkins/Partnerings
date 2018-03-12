@@ -86,15 +86,12 @@ function printPartners(numberOfStudents, partneringSize) {
     while (day.every(ringIteration => !!ringIteration.value)) {
       //convert dayGenerators to arrays
       const dayIds = day.map(ring => ring.value);
-      console.log(`dayIds ${JSON.stringify(dayIds)}`);
       //merge day ids by going through each array and merging it
       const mergedIds = dayIds.reduce(
         (accumulator, dayIdArray) => {
-          console.log(`dayIdArray ${JSON.stringify(dayIdArray)}`);
           return accumulator.map((ring, ringNumber) =>
             ring.concat(dayIdArray[ringNumber])
           );
-          console.log(`accumulator ${JSON.stringify(accumulator)}`);
         },
         Array(partneringSize)
           .fill(0)
@@ -116,4 +113,5 @@ function printPartners(numberOfStudents, partneringSize) {
   }
 }
 
-printPartners(27, 3);
+//Using 27 people (which is 3 to the power of 3), split into partners of 3
+printPartners(Math.pow(3, 3), 3);
