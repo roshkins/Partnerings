@@ -45,14 +45,6 @@ function distributePartners(studentArray, partneringSize) {
 
   return partnerGroups;
 }
-// console.log(
-//   distributePartners(
-//     Array(27)
-//       .fill(0)
-//       .map((item, index) => index),
-//     3
-//   )
-// );
 
 //partneringSize
 function printPartners(numberOfStudents, partneringSize) {
@@ -64,47 +56,55 @@ function printPartners(numberOfStudents, partneringSize) {
     if (!studentIds) {
       return;
     }
+    //if there is only one student in the group, return
     if (studentIds.length <= partneringSize) {
       yield studentIds;
+      return;
     }
+
+    //distribute students into their groups
     const distributedPartners = distributePartners(studentIds, partneringSize);
 
+    //obtain the generator for a round of partnering
     let partners = partnerRound(distributedPartners);
     let partner = partners.next();
-    while (!partner.done) {
+    while (partner.value) {
       //get the partnering of the day
       yield partner.value;
       partner = partners.next();
     }
 
-    //split each ring
+    //split all the different rings into new partners
     const newRings = distributedPartners.map(idArray =>
-      distributePartners(idArray, partneringSize)
+      presentPartnering(idArray)
     );
-    //create generator for each ring
-    const ringGenerators = newRings.map(ring => partnerRound(ring));
+    //obtain generator from each ring
+    let day = newRings.map(ringGenerator => ringGenerator.next());
 
-    let day = ringGenerators.map(ringGenerator => ringGenerator.next());
     //combine each iteration together and present it as a day
     //while all days have a value
     while (day.every(ringIteration => !!ringIteration.value)) {
       //convert dayGenerators to arrays
       const dayIds = day.map(ring => ring.value);
-
+      console.log(`dayIds ${JSON.stringify(dayIds)}`);
       //merge day ids by going through each array and merging it
       const mergedIds = dayIds.reduce(
-        (dayIdArray, accumulator) =>
-          accumulator.map((ring, ringNumber) =>
+        (accumulator, dayIdArray) => {
+          console.log(`dayIdArray ${JSON.stringify(dayIdArray)}`);
+          return accumulator.map((ring, ringNumber) =>
             ring.concat(dayIdArray[ringNumber])
-          ),
+          );
+          console.log(`accumulator ${JSON.stringify(accumulator)}`);
+        },
         Array(partneringSize)
           .fill(0)
           .map(() => [])
       );
+      //give new partnering to display
       yield mergedIds;
-      day = ringGenerators.map(ringGenerator => ringGenerator.next());
+      //advance to next day
+      day = newRings.map(ringGenerator => ringGenerator.next());
     }
-    let recurseCall = presentPartnering();
   }
 
   let partners = presentPartnering(initialStudentIds);
