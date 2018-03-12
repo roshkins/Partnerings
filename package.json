@@ -1,5 +1,5 @@
 {
-  "name": "pairings",
+  "name": "partnerings",
   "version": "1.0.0",
   "description": "Lists all unique groups of people",
   "main": "index.js",

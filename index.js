@@ -2,7 +2,7 @@
 function* partnerRound(partnerGroups) {
   const partnerGroupLength = partnerGroups[0].length;
   //go through all the different combinations
-  displayPartners(partnerGroups);
+  yield partnerGroups;
   for (let i = 0; i < partnerGroupLength - 1; i++) {
     partnerGroups.forEach((group, index) => {
       //do a rotation index number of times(so 0 times at index 0, 1 at index 1, etc)
@@ -104,6 +104,7 @@ function printPartners(numberOfStudents, partneringSize) {
       yield mergedIds;
       day = ringGenerators.map(ringGenerator => ringGenerator.next());
     }
+    let recurseCall = presentPartnering();
   }
 
   let partners = presentPartnering(initialStudentIds);
