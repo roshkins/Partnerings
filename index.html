@@ -25,7 +25,9 @@
       );
       const names = namesChars.split(",").map(name => name.trim());
       const smallestWholeLogGreater = Math.ceil(
-        Math.log(names.length) / Math.log(partnerSize)
+        Math.round(
+          Math.log(names.length) / Math.log(partnerSize) * 1000000000000
+        ) / 1000000000000
       );
       const nearestExp = Math.pow(partnerSize, smallestWholeLogGreater);
       printPartners(nearestExp, partnerSize, (nameIds, dayNum) => {
