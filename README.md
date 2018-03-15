@@ -3,6 +3,8 @@
 There are no dependencies, so you may run
 `node index.js`
 
+Edit the last line of `index.js` to change the number of participants.
+
 # Background and algorithm discussion
 
 Hi there! I'm Rashi. I recently took a class where we had to break out into partners. I didn't know anyone else in the class and neither did anyone else. Every day we would come in and we had to split into partnering groups and I noticed something interesting. I wanted to meet all the people in the class. I wanted to meet someone new every day but because the typical approach to creating partnering groups was to randomly allocate them into groups I sometimes got the same person twice and I got no experience talking with someone else. this got me thinking. Is there a way to create partnering groups so that I would always meet someone new and everyone else would also meet someone new everyday that we had a partnering session.

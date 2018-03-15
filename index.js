@@ -14,15 +14,16 @@ function* partnerRound(partnerGroups) {
   }
 }
 
-function displayPartners(partnerGroups, dayNumber) {
+function displayPartners(partnerGroups, dayNumber, cb) {
   console.log(`For day ${dayNumber}:`);
+  const partners = [];
   for (let i = 0; i < partnerGroups[0].length; i++) {
-    let displayString = "";
-    partnerGroups.forEach(
-      partnerGroup => (displayString += " " + partnerGroup[i])
-    );
-    console.log(displayString);
+    let partnering = partnerGroups.map(partnerGroup => partnerGroup[i]);
+    partners.push(partnering);
   }
+  cb
+    ? cb(partners, dayNumber)
+    : console.log(partners.map(partner => partner.join("")).join("\n"));
   console.log("\n");
 }
 // partnerRound([
@@ -47,7 +48,13 @@ function distributePartners(studentArray, partneringSize) {
 }
 
 //partneringSize
-function printPartners(numberOfStudents, partneringSize) {
+function printPartners(numberOfStudents, partneringSize, cb) {
+  //because of floating point errors
+  if (
+    (Math.log(numberOfStudents) / Math.log(partneringSize)) % 1 >
+    0.000000000000001
+  )
+    throw "numberOfStudents must be a perfect power of partneringSize";
   const initialStudentIds = new Array(numberOfStudents)
     .fill(0)
     .map((item, index) => index);
@@ -108,10 +115,9 @@ function printPartners(numberOfStudents, partneringSize) {
   let partner = partners.next();
   let dayNumber = 1;
   while (partner.value) {
-    displayPartners(partner.value, dayNumber++);
+    displayPartners(partner.value, dayNumber++, cb);
     partner = partners.next();
   }
 }
-
 //Using 27 people (which is 3 to the power of 3), split into partners of 3
-printPartners(Math.pow(3, 3), 3);
+printPartners(4, 2, () => "");

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Display partnerings</title>
+  <style type="text/css">
+    form,
+    input,
+    textarea {
+      display: block;
+    }
+  </style>
+  <script src="index.js"></script>
+
+  <script>
+  document.addEventListener("readystatechange", () => {
+  if (document.readyState === "complete") {
+    document.getElementById("partnerForm").addEventListener("submit", e => {
+      e.preventDefault();
+      document.getElementById("output").innerText = "";
+      const namesChars = document.getElementById("names").value;
+      const partnerSize = Number(
+        document.getElementById("partneringSize").value
+      );
+      const names = namesChars.split(",").map(name => name.trim());
+      const smallestWholeLogGreater = Math.ceil(
+        Math.log(names.length) / Math.log(partnerSize)
+      );
+      const nearestExp = Math.pow(partnerSize, smallestWholeLogGreater);
+      printPartners(nearestExp, partnerSize, (nameIds, dayNum) => {
+        document.getElementById("output").innerText +=
+          `\n\n DAY ${dayNum} \n` +
+          nameIds
+            .map(nameIdDay => {
+              console.log(nameIdDay);
+              return nameIdDay
+                .map(nameId => names[nameId] || nameId)
+                .join(" <=> ");
+            })
+            .join("\n");
+      });
+    });
+  }
+});
+</script>
+</head>
+
+<body>
+  <form id="partnerForm">
+    <label for="names">Type in a list of names here, separated by commas (,)</label>
+    <textarea id="names" rows="15" cols="100" placeholder="fred, sue, jacob, sam, harold, jeremy">fred, sue, jacob, sam, harold, jeremy</textarea>
+    <label for="partneringSize">How many people in a partnering? </label>
+    <input id="partneringSize" type="number" min="2" value="2" />
+    <input type="submit" />
+  </form>
+
+  <h3>Note: Because only certain counts of names gaurentee every person has a match, numbers may be used to fill in missing people</h3>
+  <div id="output"> </div>
+
+</body>
+
+</html>
