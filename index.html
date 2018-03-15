@@ -32,7 +32,7 @@
       );
       const nearestExp = Math.pow(partnerSize, smallestWholeLogGreater);
       printPartners(nearestExp, partnerSize, (nameIds, dayNum) => {
-        document.getElementById("output").innerText +=
+        document.getElementById("output").innerText =
           `\n\n DAY ${dayNum} \n` +
           nameIds
             .map(nameIdDay => {
@@ -41,7 +41,8 @@
                 .map(nameId => names[nameId] || nameId)
                 .join(" <=> ");
             })
-            .join("\n");
+            .join("\n") +
+          document.getElementById("output").innerText;
       });
     });
   }
