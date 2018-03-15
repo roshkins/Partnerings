@@ -24,6 +24,7 @@
         document.getElementById("partneringSize").value
       );
       const names = namesChars.split(",").map(name => name.trim());
+      //deal with precision errors and calculate the smallest log that will encompass everything
       const smallestWholeLogGreater = Math.ceil(
         Math.round(
           Math.log(names.length) / Math.log(partnerSize) * 1000000000000
